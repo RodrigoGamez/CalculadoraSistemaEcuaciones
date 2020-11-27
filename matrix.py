@@ -65,7 +65,7 @@ class Matrix:
                 except IndexError:
                     pass
 
-    def get_transposed(self):
+    def transposed(self):
         """Change the columns for the rows and vice versa"""
         values = []
         for column in self.columns:
@@ -73,11 +73,17 @@ class Matrix:
                 values.append(column[index])
         return Matrix(values, self.m, self.n)
 
+    def negative(self):
+        """return the matrix multiplied by -1"""
+        return multiply(self, -1)
 
-def multiplicable(matrix_a, matrix_b):
+
+def same_dimension(matrix_a, matrix_b):
     """Check if two matrix are can be multiplied"""
     if matrix_a.n == matrix_b.m:
         return True
+    else:
+        return False
 
 
 def multiply(matrix_a, matrix_b):
@@ -86,12 +92,13 @@ def multiply(matrix_a, matrix_b):
     value = 0
     # If there's two matrix, then multiply them usually
     if type(matrix_a) and type(matrix_b) == Matrix:
-        for row in matrix_a.rows:
-            for column in matrix_b.columns:
-                for index in range(0, matrix_a.m):
-                    value += row[index] * column[index]
-                values.append(value)
-                value = 0
+        if same_dimension(matrix_a, matrix_b):
+            for row in matrix_a.rows:
+                for column in matrix_b.columns:
+                    for index in range(0, matrix_a.m):
+                        value += row[index] * column[index]
+                    values.append(value)
+                    value = 0
 
         return Matrix(values, matrix_a.n, matrix_b.m)
     # If there's a matrix and a number, check witch is the
@@ -110,3 +117,13 @@ def multiply(matrix_a, matrix_b):
 
         return Matrix(values, matrix.n, matrix.m)
 
+
+def add(matrix_a, matrix_b):
+    """Add two matrix if it's possible"""
+    values = []
+    if same_dimension(matrix_a, matrix_b):
+        for index in range(0, len(matrix_a.values)):
+            values.append(matrix_a.values[index] + matrix_b.values[index])
+        return Matrix(values, matrix_a.n, matrix_a.m)
+    else:
+        return False
