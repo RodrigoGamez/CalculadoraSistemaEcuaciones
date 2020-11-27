@@ -84,15 +84,29 @@ def multiply(matrix_a, matrix_b):
     """Multiply two matrix if is possible"""
     values = []
     value = 0
-    for index_row in range(0, matrix_a.n):
-        for index_column in range(0, matrix_b.m):
-            for index_number in range(0, matrix_a.m):
-                row = matrix_a.rows[index_row]
-                column = matrix_b.columns[index_column]
-                value += row[index_number] * column[index_number]
-            values.append(value)
-            value = 0
+    # If there's two matrix, then multiply them usually
+    if type(matrix_a) and type(matrix_b) == Matrix:
+        for row in matrix_a.rows:
+            for column in matrix_b.columns:
+                for index in range(0, matrix_a.m):
+                    value += row[index] * column[index]
+                values.append(value)
+                value = 0
 
-    return Matrix(values, matrix_a.n, matrix_b.m)
+        return Matrix(values, matrix_a.n, matrix_b.m)
+    # If there's a matrix and a number, check witch is the
+    # number and then multiply them
+    else:
+        if type(matrix_a) == Matrix:
+            number = matrix_b
+            matrix = matrix_a
+        else:
+            number = matrix_a
+            matrix = matrix_b
 
-# uwu
+        for row in matrix.rows:
+            for index in range(0, len(row)):
+                values.append(row[index] * number)
+
+        return Matrix(values, matrix.n, matrix.m)
+

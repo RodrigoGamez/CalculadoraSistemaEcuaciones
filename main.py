@@ -24,7 +24,7 @@ def main():
     print(b.columns)
     print(matrix.multiplicable(a, b))
     print('\n')
-    print(matrix.multiply(a, b).values)
+    print(matrix.multiply(a, 2).values)
 
 
 if __name__ == '__main__':
