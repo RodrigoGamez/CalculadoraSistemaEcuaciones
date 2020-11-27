@@ -1,10 +1,10 @@
-from matrix import Matrix
-import matrix
-
 """
 Calculadora Sistema Ecuaciones by Rodrigo Gámez Triviño 3ºESO B
 
 """
+from matrix import Matrix
+import matrix
+
 
 values = [1, 3,
           2, 9,
@@ -13,6 +13,10 @@ values = [1, 3,
 c_v = [1, 1,
        1, 1
        ]
+
+
+def gauss_method(matrix):
+    pass
 
 
 def main():
@@ -31,6 +35,7 @@ def main():
     print('\n')
     print(matrix.multiply(a, 2).values)
     print(matrix.add(a, c.negative()).values)
+    print(a.values)
 
 
 if __name__ == '__main__':

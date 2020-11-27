@@ -28,42 +28,45 @@ class Matrix:
         """
         This function create two lists that contains the rows and columns
         separately
+
+        When the row has less numbers than the length we add a new num
+        and when there are enough numbers it throw the row to self.rows
         """
         row = []
-        for index in range(0, len(self.values) + 1):
-            """
-            When the row has less numbers than the length it adds a new num
-            and when there are enough numbers it throw the row to self.rows
-            """
-            # Make the rows
+        for value in self.values:
             if len(row) < self.m:
-                row.append(self.values[index])
+                row.append(value)
             else:
                 self.rows.append(row)
-                # the try-except block is here for don't lose any row
-                try:
-                    row = [self.values[index]]
-                except IndexError:
-                    pass
+                row = [value]
+        self.rows.append(row)
 
+        """
+        When the column has less numbers than the length we add a new num
+        and when there are enough numbers it throw the row to self.columns
+        """
         column = []
-        for index in range(0, len(self.rows[0]) + 1):
-            # get an index to go through each row
-            if len(column) < self.n:
-                for r in range(0, len(self.rows)):
-                    # get each row numbers and take the correct
-                    cache = self.rows[r]
-                    column.append(cache[index])
-            else:
-                self.columns.append(column)
-                column = []
-                # the try-except block is here for don't lose any column
-                try:
-                    for r in range(0, len(self.rows)):
-                        cache = self.rows[r]
-                        column.append(cache[index])
-                except IndexError:
-                    pass
+        for index in range(0, self.m):
+            for row in self.rows:
+                if len(column) < self.n:
+                    column.append(row[index])
+                else:
+                    self.columns.append(column)
+                    column = [row[index]]
+            self.columns.append(column)
+
+    def update_values(self, values):
+        self.values = values
+        self.create_columns_rows()
+
+    def update_row(self, index, new_row):
+        values = []
+        if len(new_row) == self.m:
+            self.rows[index] = new_row
+            for row in self.rows:
+                for value in row:
+                    values.append(value)
+            self.update_values(values)
 
     def transposed(self):
         """Change the columns for the rows and vice versa"""
@@ -116,6 +119,13 @@ def multiply(matrix_a, matrix_b):
                 values.append(row[index] * number)
 
         return Matrix(values, matrix.n, matrix.m)
+
+
+def multiply_row(row, number):
+    new_row = []
+    for value in row:
+        new_row.append(value * number)
+    return new_row
 
 
 def add(matrix_a, matrix_b):
