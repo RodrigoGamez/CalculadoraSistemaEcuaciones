@@ -56,10 +56,14 @@ class Matrix:
             self.columns.append(column)
 
     def update_values(self, values):
+        """update the values and build the rows and columns"""
         self.values = values
+        self.rows = []
+        self.columns = []
         self.create_columns_rows()
 
     def update_row(self, index, new_row):
+        """update a single row"""
         values = []
         if len(new_row) == self.m:
             self.rows[index] = new_row
@@ -131,9 +135,18 @@ def multiply_row(row, number):
 def add(matrix_a, matrix_b):
     """Add two matrix if it's possible"""
     values = []
-    if same_dimension(matrix_a, matrix_b):
-        for index in range(0, len(matrix_a.values)):
-            values.append(matrix_a.values[index] + matrix_b.values[index])
-        return Matrix(values, matrix_a.n, matrix_a.m)
+    if matrix_a and matrix_b == Matrix:
+        if same_dimension(matrix_a, matrix_b):
+            for index in range(0, len(matrix_a.values)):
+                values.append(matrix_a.values[index] + matrix_b.values[index])
+            return Matrix(values, matrix_a.n, matrix_a.m)
+        else:
+            return False
     else:
-        return False
+        # Add rows
+        if len(matrix_a) == len(matrix_b):
+            for index in range(0, len(matrix_a)):
+                values.append(matrix_a[index] + matrix_b[index])
+            return values
+        else:
+            return False
